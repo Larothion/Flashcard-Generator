@@ -5,74 +5,87 @@ var inquirer = require("inquirer");
 var  correctAnswer = 0;
 var  incorrectAnswer = 0;
 
-function BasicCard (front,back) {
-  this.front = front;
-  this.back = back;
+/*Flashcard Basic constructor*/
+function BasicCard (front1,back1,front2,back2) {
+  this.front1 = front1;
+  this.back1 = back1;
+  this.front2 = front2;
+  this.back2 = back2;
+  this.questionPrompt = flashCardGame(this.front1, this.back1, this.front2, this.back2);
  }
+
 
 // runs inquirer and asks the user a series of questions whose replies are
 // stored within the variable answers inside of the .then statement
-function flashCardGame() {
+function flashCardGame(front1, back1, front2, back2) {
 	inquirer.prompt([
       {
-        name: "answer",
-   		message: "Who was the first president of the United States?"
+        name: "answer1",
+   		  message: front1
+      }, {
+        name: "answer2",
+        message: front2
       }
-    ]).then(function(answerOne) {
-      // if the answer is yes, start the substitution prompts
-      if (answerOne.answer === "George Washington") {
-      		console.log("That is Correct!");
+    ]).then(function(answers) {
+/*checks and displays whether the answers are right or not*/
+      if (answers.answer1 === back1) {
+      		console.log("Question 1: " + answers.answer1 + ". \nCorrect!");
       		correctAnswer += 1;
       	} else {
-      		console.log("Oh... That is Incorrect.");
+      		console.log("Question 1: " + answers.answer1 + ". \nOh.. Incorrect.");
       		incorrectAnswer += 1;
-      	}
+      	};
 
-      	inquirer.prompt([
-          {
-            name: "answer",
-   			message: "Which President wanted to make 'America Great Again?'"
-          }
-        ]).then(function(answerTwo) {
-        	if (answerTwo.answer === "Donald Trump") {
-      			console.log("That is Correct!");
-      			correctAnswer += 1;
-      		} else {
-      			console.log("Oh... That is Incorrect.");
-      			incorrectAnswer += 1;
-      			};
-      		displayScore();
-			   function displayScore() {
+       if (answers.answer2 === back2) {
+          console.log("Question 2: " + answers.answer2 + ". \nCorrect!");
+          correctAnswer += 1;
+        } else {
+          console.log("Question 2: " + answers.answer2 + ". \nOh.. Incorrect.");
+          incorrectAnswer += 1;
+        };
+
+/*Displays how many questions the user get right or wrong*/
+/*Also asks whether the user wants to play again or not*/
+      displayScore();
+			 function displayScore() {
 				console.log("\nCorrect Answers: " + correctAnswer);
-			    console.log("Incorrect Answers: " + incorrectAnswer);
+			   console.log("Incorrect Answers: " + incorrectAnswer);
 
       		inquirer.prompt(
-      		{
-		      name: "again",
-		      type: "confirm",
-		      message: "Would you like to try again?"
-		    }).then(function(answer) {
-		      if (answer.again === true) {
-		        // starts new match with the same players
-		        flashCardGame();
-		        correctAnswer = 0;
-		        incorrectAnswer = 0;
-		      }
-		      else {
-		        console.log("Come back again soon!");
-		      }
+            {
+		          name: "again",
+		          type: "confirm",
+		          message: "Would you like to try again?"
+		        }).then(function(answerOne) {
+    		      if (answerOne.again === true) {
+    		        // starts new match with the same players
+    		        begin();
+    		        correctAnswer = 0;
+    		        incorrectAnswer = 0;
+    		      }
+    		      else {
+    		        console.log("Come back again soon!");
+    		      }
 		    });
       		};
 
       	});
 
 
-});
+};
+
+/*starts the flashcard prompts     */   
+function begin() {
+  var newCard = new BasicCard(
+    "Who was the 1st President of the United States", 
+    "George Washington", 
+    "Who wants to make 'America Great Again?'",
+    "Donald Trump");
+  newCard.questionPrompt;
 }
-        
 
+begin();
 
-flashCardGame();
 
 
 
