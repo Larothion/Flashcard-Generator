@@ -1,3 +1,11 @@
+/*Mismanaged my time this week which is why assignment is half done.  
+I Was able to create BasicCard constructor, however need to go back
+and familiarlize myself on the Cloze logic. 
+
+Will re-submit at a later date.*/
+
+
+
 var inquirer = require("inquirer");
 
 /*global vairables*/
